@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,6 +26,6 @@ public class CustomerDTO {
 
     private String phoneNumber;
 
-    private List<Flower> flowers;
+    private List<Flower> flowers = new ArrayList<>();
 
 }

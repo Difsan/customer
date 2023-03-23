@@ -22,17 +22,20 @@ public class UpdateFlowerListUseCase implements UpdateFlowerList {
 
 
     @Override
-    public Mono<CustomerDTO> add(String customerId, Flower flower) {
-        return this.customerRepository
+    public void add(String customerId, Flower flower) {
+        this.customerRepository
                 .findById(customerId)
                 .switchIfEmpty(Mono.empty())
                 .flatMap(customer -> {
                     var listOfFlowers = customer.getFlowers();
-                    listOfFlowers.add(flower);
+                    /*listOfFlowers.stream().forEach(flower1 -> {
+                        if (flower1.getId().equals(flower.getId())) Mono.error(new Throwable("Flower already bought"));
+                    });
+                    listOfFlowers.add(flower);*/
                     customer.setFlowers(listOfFlowers);
                     return this.customerRepository.save(customer);
                 })
-                .map(customer -> mapper.map(customer, CustomerDTO.class));
+                .map(customer -> mapper.map(customer, CustomerDTO.class)).subscribe();
     }
 
     @Override
