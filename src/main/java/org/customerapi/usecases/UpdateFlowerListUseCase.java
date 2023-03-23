@@ -25,13 +25,15 @@ public class UpdateFlowerListUseCase implements UpdateFlowerList {
     public void add(String customerId, Flower flower) {
         this.customerRepository
                 .findById(customerId)
-                .switchIfEmpty(Mono.empty())
+                //.switchIfEmpty(Mono.empty())
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "customer with id: " + customerId)))
                 .flatMap(customer -> {
                     var listOfFlowers = customer.getFlowers();
                     /*listOfFlowers.stream().forEach(flower1 -> {
                         if (flower1.getId().equals(flower.getId())) Mono.error(new Throwable("Flower already bought"));
-                    });
-                    listOfFlowers.add(flower);*/
+                    });*/
+                    listOfFlowers.add(flower);
                     customer.setFlowers(listOfFlowers);
                     return this.customerRepository.save(customer);
                 })

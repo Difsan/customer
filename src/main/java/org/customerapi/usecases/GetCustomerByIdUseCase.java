@@ -19,7 +19,9 @@ public class GetCustomerByIdUseCase implements Function<String, Mono<CustomerDTO
     @Override
     public Mono<CustomerDTO> apply(String id) {
         return this.customerRepository.findById(id)
-                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                //.switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "flower with id: " + id)))
                 .map(customer -> mapper.map(customer, CustomerDTO.class));
     }
 }

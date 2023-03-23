@@ -22,8 +22,9 @@ public class UpdateCustomerUseCase implements UpdateCustomer {
     public Mono<CustomerDTO> update(String id, CustomerDTO customerDTO) {
         return this.customerRepository
                 .findById(id)
-                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
-                .flatMap(flower -> {
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "customer with id: " + id)))
+                .flatMap(customer -> {
                     customerDTO.setId(customerDTO.getId());
                     return customerRepository.save(mapper.map(customerDTO, Customer.class));
                 })

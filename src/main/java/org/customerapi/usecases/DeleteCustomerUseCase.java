@@ -21,7 +21,9 @@ public class DeleteCustomerUseCase implements Function<String, Mono<Void>> {
     public Mono<Void> apply(String id) {
         return this.customerRepository
                 .findById(id)
-                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                //.switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "customer with id: " + id)))
                 .flatMap(customer -> this.customerRepository.deleteById(customer.getId()));
     }
 }

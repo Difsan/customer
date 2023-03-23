@@ -33,7 +33,8 @@ public class CustomerRouter {
                         .flatMap(customerDTO -> ServerResponse.ok()
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .bodyValue(customerDTO))
-                        .onErrorResume(throwable -> ServerResponse.notFound().build())
+                        //.onErrorResume(throwable -> ServerResponse.notFound().build())
+                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );
     }
 
@@ -45,7 +46,7 @@ public class CustomerRouter {
                                 .flatMap(result -> ServerResponse.status(201)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
-                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.BAD_REQUEST).build()))
+                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.BAD_REQUEST).bodyValue(throwable.getMessage())))
         );
     }
 
@@ -58,7 +59,8 @@ public class CustomerRouter {
                                 .flatMap(result -> ServerResponse.status(201)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
-                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).build())
+                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.BAD_REQUEST)
+                                        .bodyValue(throwable.getMessage()))
                         ));
     }
 
@@ -70,7 +72,7 @@ public class CustomerRouter {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .bodyValue("Customer deleted"))
                         .flatMap(serverResponseMono -> serverResponseMono)
-                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).build())
+                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))
         );
     }
 

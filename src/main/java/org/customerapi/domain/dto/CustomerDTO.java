@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -26,6 +28,6 @@ public class CustomerDTO {
 
     private String phoneNumber;
 
-    private List<Flower> flowers = new ArrayList<>();
+    private Set<Flower> flowers = new HashSet<>();
 
 }

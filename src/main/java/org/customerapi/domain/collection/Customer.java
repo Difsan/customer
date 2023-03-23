@@ -8,9 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @NoArgsConstructor
@@ -32,7 +30,7 @@ public class Customer {
     @NotNull(message = "Phone Number can't be null")
     private String phoneNumber;
 
-    private List<Flower> flowers;
+    private Set<Flower> flowers;
 
     public Customer( String name, String lastName, String email, String phoneNumber) {
         this.id = UUID.randomUUID().toString().substring(0,10);
@@ -40,6 +38,6 @@ public class Customer {
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.flowers = new ArrayList<>();
+        this.flowers = new HashSet<>();
     }
 }
