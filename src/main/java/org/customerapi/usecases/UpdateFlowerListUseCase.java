@@ -30,9 +30,6 @@ public class UpdateFlowerListUseCase implements UpdateFlowerList {
                         "customer with id: " + customerId)))
                 .flatMap(customer -> {
                     var listOfFlowers = customer.getFlowers();
-                    /*listOfFlowers.stream().forEach(flower1 -> {
-                        if (flower1.getId().equals(flower.getId())) Mono.error(new Throwable("Flower already bought"));
-                    });*/
                     listOfFlowers.add(flower);
                     customer.setFlowers(listOfFlowers);
                     return this.customerRepository.save(customer);
