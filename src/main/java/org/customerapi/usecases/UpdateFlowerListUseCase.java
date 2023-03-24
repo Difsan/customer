@@ -38,7 +38,20 @@ public class UpdateFlowerListUseCase implements UpdateFlowerList {
     }
 
     @Override
-    public Mono<CustomerDTO> remove(String customerId, Flower flower) {
-        return null;
+    public void remove(String customerId, Flower flower) {
+        this.customerRepository
+                .findById(customerId)
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("There is not " +
+                        "customer with id: " + customerId)))
+                .flatMap(customer -> {
+                    var listOfFlowers = customer.getFlowers();
+                    listOfFlowers.stream().forEach(flower1 -> {
+                        if (flower1.getId().equals(flower.getId())) listOfFlowers.remove(flower1);
+                    });
+                    //listOfFlowers.remove(flower);
+                    customer.setFlowers(listOfFlowers);
+                    return this.customerRepository.save(customer);
+                })
+                .map(customer -> mapper.map(customer, CustomerDTO.class)).subscribe();
     }
 }

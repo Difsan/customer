@@ -18,6 +18,10 @@ public class CustomerConsumer {
     @RabbitListener(queues = "flowers.queue")
     public void receiveEventFlower(String message) throws JsonProcessingException{
         FlowerEvent event = objectMapper.readValue(message, FlowerEvent.class);
-        updateFlowerListUseCase.add(event.getCustomerId(), event.getFlowerBought());
+        if (event.getEventType().equals("buy")){
+            updateFlowerListUseCase.add(event.getCustomerId(), event.getFlowerBought());
+        } else if (event.getEventType().equals("return")){
+            updateFlowerListUseCase.remove(event.getCustomerId(), event.getFlowerBought());
+        }
     }
 }

@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
 public interface UpdateFlowerList{
 
     void add(String customerId, Flower flower);
-    Mono <CustomerDTO> remove(String customerId, Flower flower);
+    void remove(String customerId, Flower flower);
 }

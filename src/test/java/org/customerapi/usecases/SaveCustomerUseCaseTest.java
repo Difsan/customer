@@ -54,8 +54,8 @@ class SaveCustomerUseCaseTest {
     }
 
     @Test
-    @DisplayName("saveFlower_Failed")
-    void saveFlower_Failed(){
+    @DisplayName("saveCustomer_Failed")
+    void saveCustomer_Failed(){
         var customer =  new Customer("Sandra", "Garcia",
                 "sang@gmail.com", "3002874965");
 
